@@ -43,7 +43,12 @@ const filterActiveUsers = (users:{
     name:string,
     email:string,
     isActive:boolean,
-}[]) =>{
+}[]):{
+    id:number,
+    name:string,
+    email:string,
+    isActive:boolean,
+}[] =>{
     {
     return users.filter((user)=> user.isActive=== true)
 }
@@ -61,7 +66,34 @@ const printBookDetails = (book:Book) =>{
     
 }
 
-//not yet
+const getUniqueValues = (
+  arr1: (number | string)[],
+  arr2: (number | string)[]
+): (number | string)[] => {
+  const result: (number | string)[] = [];
+  for (let i = 0; i < arr1.length; i++) {
+    let exists = false;
+    for (let j = 0; j < result.length; j++) {
+      if (result[j] === arr1[i]) {
+        exists = true;
+        break;
+      }
+    }
+    if (!exists) result.push(arr1[i] as number | string);
+  }
+  for (let i = 0; i < arr2.length; i++) {
+    let exists = false;
+    for (let j = 0; j < result.length; j++) {
+      if (result[j] === arr2[i]) {
+        exists = true;
+        break;
+      }
+    }
+    if (!exists) result.push(arr2[i] as number | string);
+  }
+
+  return result;
+};
 
 const calculateTotalPrice = (products:{
     name:string;
