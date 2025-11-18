@@ -70,29 +70,37 @@ const getUniqueValues = (
   arr1: (number | string)[],
   arr2: (number | string)[]
 ): (number | string)[] => {
-  const result: (number | string)[] = [];
+  const result: ((number | string) | undefined)[] = new Array(
+    arr1.length + arr2.length
+  );
+  let resIdx = 0;
+  const existInRes = (val: number | string): boolean => {
+    for (let i = 0; i < resIdx; i++) {
+      if (result[i] === val) return true;
+    }
+    return false;
+  };
+
   for (let i = 0; i < arr1.length; i++) {
-    let exists = false;
-    for (let j = 0; j < result.length; j++) {
-      if (result[j] === arr1[i]) {
-        exists = true;
-        break;
-      }
+    const val = arr1[i]!;
+    if (!existInRes(val)) {
+      result[resIdx] = val;
+      resIdx++;
     }
-    if (!exists) result.push(arr1[i] as number | string);
-  }
-  for (let i = 0; i < arr2.length; i++) {
-    let exists = false;
-    for (let j = 0; j < result.length; j++) {
-      if (result[j] === arr2[i]) {
-        exists = true;
-        break;
-      }
-    }
-    if (!exists) result.push(arr2[i] as number | string);
   }
 
-  return result;
+  for (let i = 0; i < arr2.length; i++) {
+    const val = arr2[i]!;
+    if (!existInRes(val)) {
+      result[resIdx] = val;
+      resIdx++;
+    }
+  }
+  const finalArray: (number | string)[] = new Array(resIdx);
+  for (let i = 0; i < resIdx; i++) {
+    finalArray[i] = result[i] as (number | string);
+  }
+  return finalArray;
 };
 
 const calculateTotalPrice = (products:{
